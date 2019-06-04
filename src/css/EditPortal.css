@@ -1,0 +1,28 @@
+#edit_portal_container{
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #f1f1f1;
+  flex-basis: 1;
+}
+
+#edit_portal_meta_info{
+  flex-grow: 1;
+}
+
+.editing_portal{
+  flex-grow: 4;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;;
+  align-items: center;
+  margin: 0.25em 0;
+}
+
+.editing_portal_content{
+
+}
