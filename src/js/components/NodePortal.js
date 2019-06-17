@@ -37,19 +37,30 @@ class NodePortal extends Component {
   render(){
     return(
       <div className="editing_portal">
-        <div>
-          <h3>Node</h3>
+
+        <div className="editing_portal_header">
+          <h3>
+            Active Node
+            <div class="tooltip">?
+              <div class="tooltiptext">
+                Edit the currently selected Node.
+              </div>
+            </div>
+          </h3>
         </div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Title:
-            <input type="text" name="title" value={this.state.title} onChange={this.handleChange} />
-          </label>
-          <br/>
-          <label>Content:
-            <textarea name="content" value={this.state.content} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Save" />
-        </form>
+
+        <div className="editing_portal_content">
+          <form id="node_edit_form" onSubmit={this.handleSubmit}>
+
+              <input type="text" name="title" value={this.state.title} onChange={this.handleChange} />
+
+            <br/>
+              <textarea name="content" placeholder="Node Content" value={this.state.content} onChange={this.handleChange} />
+            <br/>
+            <input type="submit" value="Save" />
+          </form>
+        </div>
+
       </div>
     )
   }

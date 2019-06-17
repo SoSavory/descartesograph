@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Navigation from "./Navigation";
 import EditPortal from "./EditPortal";
 import Visualizer from "./Visualizer";
+import VisualizerOverlay from "./VisualizerOverlay";
 
 import '../../css/StoryBoard.css';
 
@@ -11,7 +12,6 @@ import '../../css/StoryBoard.css';
 class StoryBoard extends Component {
   constructor(props){
     super(props);
-    this.state = {};
   }
 
   render(){
@@ -19,13 +19,14 @@ class StoryBoard extends Component {
       <div id="storyboard_container">
         <div className="left_right_container">
           <div id="left">
+
             <EditPortal />
           </div>
           <div id="right">
-            <div id="top">
               <Navigation />
-            </div>
-            <Visualizer />
+
+              <Visualizer />
+
           </div>
         </div>
       </div>

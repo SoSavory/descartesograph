@@ -14,6 +14,12 @@ import '../../css/EditPortal.css';
 class EditPortal extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      graph_id: this.props.active_story_id,
+      graph_title: this.props.active_story_title
+    }
+
+
   }
 
   getANode(node_id){
@@ -27,11 +33,11 @@ class EditPortal extends Component {
   render(){
     return(
       <div id="edit_portal_container" key={this.props.active_node.id}>
-        <div>
-          <h1>Edit </h1>
-          <span>Active Node is: {this.props.active_node.id}</span>
+        <div id="edit_portal_meta_info">
+
         </div>
         <NodePortal
+
           node_id={this.props.active_node.id}
           node_data={this.props.active_node.data}
          />
@@ -49,6 +55,8 @@ class EditPortal extends Component {
 const mapStateToProps = (state, ownProps) => {
   let node = getActiveNode(state);
   return {
+    active_graph_id: state.graph_id,
+    active_graph_title: state.graph_title,
     active_node: node,
     active_node_edges: node['edges'],
     active_node_reverse_edges: node['reverse_edges']

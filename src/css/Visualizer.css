@@ -1,3 +1,6 @@
+#visualizer_and_overlay{
+}
+
 #visualizer_container{
   width: 100%;
   min-height: 90%;
@@ -13,16 +16,10 @@
   overflow-y: scroll;
 }
 
-
-.node_symbol{
-  opacity: 0.7;
-  cursor: pointer;
+#visualizer_overlay{
+  height: 100%;
 }
 
-.node_symbol:hover{
-  opacity: 1;
-}
-
-.active_node{
-  opacity: 1;
+#visualizer_overlay ul{
+  background-color: rgba(0,0,38,0.75);
 }

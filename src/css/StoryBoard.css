@@ -7,7 +7,11 @@
   align-items: stretch;
 }
 
-
+#site_navigation{
+  width: 100%;
+  align-content: center;
+  align-self: center;
+}
 
 .left_right_container{
   width: 100%;
@@ -15,8 +19,6 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  /*align-items: stretch;*/
-  flex-basis: 1;
 }
 
 #left{
@@ -24,6 +26,7 @@
   flex-grow: 3;
   padding: 1em 0 1em 1em;
   height: 100%;
+  width: 45%;
 }
 
 #right{
@@ -31,17 +34,20 @@
   flex-grow: 7;
   padding: 1em 1em 1em 0;
   height: 100%;
-
+  width:55%;
   display: flex;
   flex-direction: column;
-  flex-basis: 1;
+
+
 }
 
-#top{
+#toolbar{
   display: flex;
   background-color: grey;
   align-items: center;
   flex-grow: 1;
+  padding: 0.25em;
+  justify-content: space-between;
 }
 
 #right #visualizer_container{

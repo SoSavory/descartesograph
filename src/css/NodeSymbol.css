@@ -1,3 +1,12 @@
+.node_symbol{
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.node_symbol:hover{
+  opacity: 1;
+}
+
 .active_node{
-  border: 3px solid green;
+  opacity: 1;
 }

@@ -16,6 +16,7 @@ class EdgePortal extends Component {
       title: "Untitled Edge"
     };
 
+    // form handlers
     this.addEdge = this.addEdge.bind(this);
     this.handleNewEdgeChange = this.handleNewEdgeChange.bind(this);
   }
@@ -34,32 +35,46 @@ class EdgePortal extends Component {
   }
 
   render(){
-    console.log(this.props)
     return(
       <div className="editing_portal">
-        <div>
-          <h3>Edges</h3>
+        <div className="editing_portal_header">
+          <h3>
+            Edges
+            <div class="tooltip">?
+              <div class="tooltiptext">
+                Add, Edit, and View Edges leading from the currently selected node.
+              </div>
+            </div>
+          </h3>
         </div>
-        <div className="editing_content">
+        <div className="editing_portal_content">
+
           { this.props.type == "to" &&
-            <form onSubmit={this.addEdge} >
+            <form id="edge_edit_form" onSubmit={this.addEdge} >
               <select value={this.state.node_to_id} onChange={this.handleNewEdgeChange}>
                 {
                   this.props.nodes.map( (node, i) => (
-                    <option key={i} value={Object.keys(node)[0]}>{Object.values(node)[0]}: {Object.keys(node)[0]}</option>
+                    <option key={i} value={Object.keys(node)[0]}>{Object.values(node)[0]}</option>
                   ))
                 }
               </select>
               <input type='submit' value="Add Edge" />
+              <span class="tooltip"> ?
+                <div class="tooltiptext">
+                  Add an Edge from the selected node to another node. Nodes can have edges to themselves.
+                </div>
+              </span>
             </form>
           }
-          <ul>
-            {
-              this.props.edges.map( (edge,i) => (
-                <ListedEdge key={i} edge_id={edge.id} title={edge.title} node_to_id={edge.node_id} abstracted_nodes={this.props.nodes} />
-              ) )
-            }
-          </ul>
+          <div className="scrolling_ul">
+            <ul >
+              {
+                this.props.edges.map( (edge,i) => (
+                  <ListedEdge key={i} edge_id={edge.id} title={edge.title} node_to_id={edge.node_id} abstracted_nodes={this.props.nodes} />
+                ) )
+              }
+            </ul>
+          </div>
         </div>
       </div>
     )

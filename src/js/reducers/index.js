@@ -1,20 +1,34 @@
-import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE } from "../constants/action-types";
+import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE } from "../constants/action-types";
 import { getNodeIndex, getEdgeIndex } from "../selectors/index";
+import { getGraph, getGraphList, getActiveGraph } from "../helpers/localStorageManager";
 import uuidv1 from 'uuid';
 
-const initial_id = uuidv1();
+let initialState = {}
 
-// edges have form {id: '', node_id: '', title: ''}
+if(getActiveGraph()){
+  // set a localstorage 'active story', then access that
+  initialState = getActiveGraph();
 
-const initialState = {
-  active_node_id: initial_id,
-  nodes: [{
-    id: initial_id,
-    data: {title: "Untitled Node", content: ""},
-    edges: [],
-    reverse_edges: []
-  }]
-};
+} else {
+
+  const initial_node_id = uuidv1();
+  const initial_graph_id = uuidv1();
+
+  // edges have form {id: '', node_id: '', title: ''}
+
+  initialState = {
+    graph_id: initial_graph_id,
+    graph_title: "Untitled Document",
+    active_node_id: initial_node_id,
+    nodes: [{
+      id: initial_node_id,
+      data: {title: "Untitled Node", content: ""},
+      edges: [],
+      reverse_edges: []
+    }]
+  };
+}
+
 
 // A node is an object of form {id: 'id', data: {}, edges: [list of node ids], reverse_edges: [list of node ids]}
 
@@ -42,7 +56,11 @@ function rootReducer(state = initialState, action){
     case EDIT_EDGE:
       return Object.assign({}, state, {
         nodes: editEdge(state, action.payload)
-      })
+      });
+    case EDIT_TITLE:
+      return Object.assign({}, state, {
+        graph_title: action.payload
+      });
     default:
       return state
   }
