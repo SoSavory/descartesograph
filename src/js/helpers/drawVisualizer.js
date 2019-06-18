@@ -48,7 +48,10 @@ function drag(simulation) {
 
 function activateNode(d){
   store.dispatch(setActive(d.id));
-
+  // A little jank, updating classes directly instead of listening to the redux store.
+  d3.selectAll('.active_node').classed('active_node', false);
+  // this.querySelector('circle').classList.add('active_node');
+  d3.select('circle[node-id=node-'+d.id+']').classed('active_node', true);
 }
 
 function anyIdMatches(arr, val){
@@ -82,76 +85,209 @@ function update(nodes,links,state,prev_state){
 
 
 
+
 // props follows shape of nodes
+// const drawVisualizer = (props) => {
+//   d3.select('#visualizer_container > *').remove();
+//   const container = document.getElementById('visualizer_container');
+//   const w = container.clientWidth;
+//   const h = container.clientHeight;
+//
+//   const links = [];
+//   const nodes = [];
+//   const prev_state = props;
+//
+//   update(nodes, links, props);
+//
+//   const svg = d3.select('#visualizer_container').append("svg")
+//       .attr('height', h)
+//       .attr('width', w)
+//       .attr("viewBox", [-w/2,-h/2,w,h])
+//       .attr("preserveAsppectRatio", "xMinYMin meet")
+//       .attr("overflow", "auto");
+//
+//   const g = svg.append('g').attr("class", "zoomable");
+//
+//   const simulation = d3.forceSimulation(nodes)
+//       .force("link", d3.forceLink(links).id(d => d.id))
+//       .force("charge", d3.forceManyBody().strength(() => -1000))
+//       .force("x", d3.forceX())
+//       .force("y", d3.forceY());
+//
+//     simulation.on("tick", () => {
+//       link
+//         .attr("x1", d => d.source.x)
+//         .attr("y1", d => d.source.y)
+//         .attr("x2", d => d.target.x)
+//         .attr("y2", d => d.target.y);
+//
+//       node
+//         .attr("cx", d => d.x)
+//         .attr("cy", d => d.y);
+//     });
+//
+//     g.append("defs").selectAll("marker")
+//         .data(["suit", "licensing", "resolved"])
+//       .enter().append("marker")
+//         .attr("id", function(d) { return d; })
+//         .attr("viewBox", "0 -5 10 10")
+//         .attr("refX", 25)
+//         .attr("refY", 0)
+//         .attr("markerWidth", 6)
+//         .attr("markerHeight", 6)
+//         .attr("orient", "auto")
+//       .append("path")
+//         .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
+//         .style("stroke", "#4679BD")
+//         .style("opacity", "0.6");
+//
+//     const link = g.append("g")
+//         .attr("stroke", "#999")
+//         .attr("stroke-opacity", 0.6)
+//       .selectAll("line")
+//       .data(links)
+//       .join("line")
+//         .attr("stroke-width", 1)
+//         .style("marker-end", "url(#suit)");
+//
+//     const node = g.append("g")
+//         .attr("stroke", "#fff")
+//         .attr("stroke-width", 0.5)
+//       .selectAll("g")
+//       .data(nodes)
+//       .join("circle")
+//         .classed("node_symbol", true)
+//         .classed("active_node", function(d){return d.id === props.active_node_id})
+//         .attr("r", 15)
+//         .attr("fill", color)
+//         .on("click", activateNode)
+//         .call(drag(simulation));
+//
+//       node.append("title")
+//         .text(function(d){return d.title});
+//
+//       node.append("text")
+//         .text(function(d){return d.title}).attr('x', 6).attr('y', 3);
+//
+//       const zoom_handler = d3.zoom().on("zoom", () => {
+//         g.attr("transform", d3.event.transform)
+//       });
+//
+//       zoom_handler(svg);
+//
+//
+// }
+
 const drawVisualizer = (props) => {
   d3.select('#visualizer_container > *').remove();
-  const container = document.getElementById('visualizer_container');
-  const w = container.clientWidth;
-  const h = container.clientHeight;
 
-  const links = [];
-  const nodes = [];
-  const prev_state = props;
+    const container = document.getElementById('visualizer_container');
+    const w = container.clientWidth;
+    const h = container.clientHeight;
 
-  update(nodes, links, props);
+    const svg = d3.select('#visualizer_container').append("svg")
+          .attr('height', h)
+          .attr('width', w)
+          .attr("viewBox", [-w/2,-h/2,w,h])
+          .attr("preserveAsppectRatio", "xMinYMin meet")
+          .attr("overflow", "auto");
 
-  const svg = d3.select('#visualizer_container').append("svg")
-      .attr('height', h)
-      .attr('width', w)
-      .attr("viewBox", [-w/2,-h/2,w,h])
-      .attr("preserveAsppectRatio", "xMinYMin meet")
-      .attr("overflow", "auto");
+    const g = svg.append('g').attr("class", "zoomable");
 
-  const g = svg.append('g').attr("class", "zoomable");
+    const links = [];
+    const nodes = [];
+    const prev_state = props;
 
-  const simulation = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id))
-      .force("charge", d3.forceManyBody().strength(() => -1000))
-      .force("x", d3.forceX())
-      .force("y", d3.forceY());
+    // populates the nodes and links
+    update(nodes, links, props);
 
-    simulation.on("tick", () => {
-      link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
+    const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(function(d) {return d.id}))
+            .force("charge", d3.forceManyBody().strength(() => -1000))
+            .force("x", d3.forceX())
+            .force("y", d3.forceY());
 
-      node
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
-    });
+    g.append("defs").selectAll("marker")
+            .data(["suit", "licensing", "resolved"])
+          .enter().append("marker")
+            .attr("id", function(d) { return d; })
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 25)
+            .attr("refY", 0)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+          .append("path")
+            .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
+            .style("stroke", "#999")
+            .style("stroke-width", 3)
+            .style("opacity", "1");
 
     const link = g.append("g")
-        .attr("stroke", "#999")
-        .attr("stroke-opacity", 0.6)
-      .selectAll("line")
-      .data(links)
-      .join("line")
-        .attr("stroke-width", 1);
+            .attr("class", "links")
+            .attr("stroke", "#999")
+            .attr("stroke-opacity", 0.6)
+          .selectAll("line")
+          .data(links)
+          .enter().append("line")
+          .style("marker-end", "url(#suit)");
 
     const node = g.append("g")
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 0.5)
-      .selectAll("circle")
-      .data(nodes)
-      .join("circle")
-        .classed("node_symbol", true)
-        .classed("active_node", function(d){return d.id === props.active_node_id})
-        .attr("r", 15)
-        .attr("fill", color)
-        .on("click", activateNode)
-        .call(drag(simulation));
+            .attr("class", "nodes")
+          .selectAll("g")
+          .data(nodes)
+          .enter().append("g")
+          .on("click", activateNode);
 
-      node.append("title")
-        .text(function(d){return d.title});
+    const circles = node.append("circle")
+            .attr("r", 10)
+            .attr("fill", "#fff")
+            .attr("node-id", d => 'node-'+d.id)
+             .classed("active_node", function(d){return d.id === props.active_node_id})
+            .classed("node_symbol", true)
+            .call(drag(simulation));
 
-      const zoom_handler = d3.zoom().on("zoom", () => {
+    const labels = node.append("text")
+            .text(function(d) {
+              return d.title
+            })
+            .attr('class', 'node_label')
+            .attr('x', 12)
+            .attr('y', 6);
+
+    node.append("title")
+      .text(function(d) { return d.id});
+
+    simulation
+      .nodes(nodes)
+      .on("tick", ticked);
+
+    simulation.force("link")
+      .links(links);
+
+    function ticked() {
+      link
+          .attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
+
+      node
+          .attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+          })
+          .attr('fx', d => d.x)
+          .attr('fy', d => d.y);
+    }
+
+    function zoom_actions(){
         g.attr("transform", d3.event.transform)
-      });
+    }
 
-      zoom_handler(svg);
+    var zoom_handler = d3.zoom()
+          .on("zoom", zoom_actions);
 
+    zoom_handler(svg);
 
 }
 

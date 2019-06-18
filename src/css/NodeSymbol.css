@@ -10,3 +10,7 @@
 .active_node{
   opacity: 1;
 }
+
+.node_label{
+  fill: #fff;
+}

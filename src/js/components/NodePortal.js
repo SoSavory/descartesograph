@@ -41,8 +41,8 @@ class NodePortal extends Component {
         <div className="editing_portal_header">
           <h3>
             Active Node
-            <div class="tooltip">?
-              <div class="tooltiptext">
+            <div className="tooltip">?
+              <div className="tooltiptext">
                 Edit the currently selected Node.
               </div>
             </div>

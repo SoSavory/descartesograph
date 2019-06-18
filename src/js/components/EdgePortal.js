@@ -40,8 +40,8 @@ class EdgePortal extends Component {
         <div className="editing_portal_header">
           <h3>
             Edges
-            <div class="tooltip">?
-              <div class="tooltiptext">
+            <div className="tooltip">?
+              <div className="tooltiptext">
                 Add, Edit, and View Edges leading from the currently selected node.
               </div>
             </div>
@@ -59,8 +59,8 @@ class EdgePortal extends Component {
                 }
               </select>
               <input type='submit' value="Add Edge" />
-              <span class="tooltip"> ?
-                <div class="tooltiptext">
+              <span className="tooltip"> ?
+                <div className="tooltiptext">
                   Add an Edge from the selected node to another node. Nodes can have edges to themselves.
                 </div>
               </span>
