@@ -45,9 +45,9 @@
 .editing_portal_content{
   height: 100%;
   width: 90%;
-  border-left: 2px solid #6636b4;
+  /*border-left: 2px solid #6636b4;*/
   flex-grow: 1;
-  background-color: rgba(215, 212, 240, 1);
+  /*background-color: rgba(215, 212, 240, 1);*/
 }
 
 .editing_portal_content #node_edit_form{
@@ -78,4 +78,16 @@
 .editing_portal_content .scrolling_ul{
   height: 80%;
   overflow: auto;
+}
+
+.listed_edge_form{
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  
+}
+
+.save_delete_container{
+  display: flex;
+  justify-content: space-between;
 }

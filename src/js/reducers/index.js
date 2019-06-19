@@ -1,9 +1,16 @@
-import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE } from "../constants/action-types";
+import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE, DELETE_EDGE, DELETE_NODE } from "../constants/action-types";
 import { getNodeIndex, getEdgeIndex } from "../selectors/index";
 import { getGraph, getGraphList, getActiveGraph } from "../helpers/localStorageManager";
 import uuidv1 from 'uuid';
 
 let initialState = {}
+
+const DEFAULT_NODES = [{
+  id: uuidv1(),
+  data: {title: "Untitled Node", content: ""},
+  edges: [],
+  reverse_edges: []
+}]
 
 if(getActiveGraph()){
   // set a localstorage 'active story', then access that
@@ -61,6 +68,19 @@ function rootReducer(state = initialState, action){
       return Object.assign({}, state, {
         graph_title: action.payload
       });
+    case DELETE_EDGE:
+      return Object.assign({}, state, {
+        nodes: deleteEdge(state, action.payload)
+      });
+    case DELETE_NODE:
+      let new_nodes = deleteNode(state, action.payload);
+      if(!new_nodes[0]){
+        new_nodes = DEFAULT_NODES;
+      }
+      return Object.assign({}, state, {
+        active_node_id: new_nodes[0].id,
+        nodes: new_nodes
+      });
     default:
       return state
   }
@@ -91,6 +111,33 @@ function editEdge(state, payload){
   let nodes = state.nodes.slice();
   let indices = getEdgeIndex(state, state.active_node_id, payload.id);
   nodes[indices['node_index']]['edges'][indices['edge_index']] = payload;
+  return nodes;
+}
+
+// payload looks like { edge_id: ''}
+function deleteEdge(state, payload){
+  let nodes = state.nodes.slice();
+  let indices = getEdgeIndex(state, state.active_node_id, payload.edge_id);
+  nodes[indices['node_index']]['edges'].splice(indices['edge_index'], 1);
+  return nodes;
+}
+
+// // payload looks like {node_id: ''}
+function deleteNode(state, payload){
+  let nodes = state.nodes.slice();
+  let node_to_remove_index;
+  nodes.forEach((node, i) => {
+
+    node.edges = node.edges.filter(edge => edge.node_id !== payload.node_id);
+
+    if(node.id === payload.node_id){
+      node_to_remove_index = i;
+    }
+
+  });
+
+  nodes.splice(node_to_remove_index, 1);
+
   return nodes;
 }
 

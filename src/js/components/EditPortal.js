@@ -22,19 +22,11 @@ class EditPortal extends Component {
 
   }
 
-  getANode(node_id){
-    // console.log(state.nodes.filter(node => node.id == node_id));
-  }
-
-  printState(){
-    console.log(this.props);
-  }
-
   render(){
     return(
       <div id="edit_portal_container" key={this.props.active_node.id}>
         <div id="edit_portal_meta_info">
-
+          
         </div>
         <NodePortal
 

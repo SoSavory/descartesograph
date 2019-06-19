@@ -56,7 +56,7 @@ class Navigation extends Component {
 
           <form onSubmit={this.handleSubmit}>
             <input type="text" value={this.state.graph_title} onChange={this.handleChange}/>
-            <input type="submit" value="Save" title="Story will be saved on this computer in this browser. Clearing your browser cache will delete this story." />
+            <input type="submit" value="Save Changes" title="Story will be saved on this computer in this browser. Clearing your browser cache will delete this story." />
           </form>
 
         <button onClick={() => this.addByButton()}>

@@ -1,12 +1,13 @@
 import React, { Component }  from "react";
 import { connect } from "react-redux";
 
-import { editNode } from "../actions/index";
+import { editNode, deleteNode } from "../actions/index";
 import { getActiveNode } from "../selectors/index";
 
 function mapDispatchToProps(dispatch){
   return {
-    editNode: node => dispatch(editNode(node))
+    editNode: node => dispatch(editNode(node)),
+    deleteNode: node => dispatch(deleteNode(node))
   };
 }
 
@@ -51,13 +52,16 @@ class NodePortal extends Component {
 
         <div className="editing_portal_content">
           <form id="node_edit_form" onSubmit={this.handleSubmit}>
-
-              <input type="text" name="title" value={this.state.title} onChange={this.handleChange} />
-
+            <label for="title">Title</label>
+            <input type="text" name="title" value={this.state.title} onChange={this.handleChange} />
             <br/>
-              <textarea name="content" placeholder="Node Content" value={this.state.content} onChange={this.handleChange} />
+            <label>Content</label>
+            <textarea name="content" placeholder="Node Content" value={this.state.content} onChange={this.handleChange} />
             <br/>
-            <input type="submit" value="Save" />
+            <div className="save_delete_container">
+              <input type="submit" value="Save Node" />
+              <button onClick={() => this.props.deleteNode({node_id: this.props.node_id})}>Delete</button>
+            </div>
           </form>
         </div>
 

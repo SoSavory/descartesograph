@@ -29,9 +29,10 @@ class Visualizer extends Component {
 
   shouldComponentUpdate(next_props){
     if(this.props.active_node_id !== next_props.active_node_id && this.props.nodes === next_props.nodes){
-      console.log("component shouldnt update")
+      console.log("component shouldnt update");
       return false;
     }
+    console.log("component should update");
     return true;
   }
 
