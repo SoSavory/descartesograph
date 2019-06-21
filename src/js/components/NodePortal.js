@@ -16,9 +16,9 @@ class NodePortal extends Component {
     super(props);
     // Not rerendering because I am locking changes into state
     this.state = {
-      prev_node_id: this.props.node_id,
       title: this.props.node_data.title,
-      content: this.props.node_data.content
+      content: this.props.node_data.content,
+      is_start: this.props.node_data.is_start
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,7 +26,10 @@ class NodePortal extends Component {
   }
 
   handleChange(event){
-    this.setState({ [event.target.name]: event.target.value });
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({[name]: value});
   }
 
   handleSubmit(event){
@@ -57,6 +60,11 @@ class NodePortal extends Component {
             <br/>
             <label>Content</label>
             <textarea name="content" placeholder="Node Content" value={this.state.content} onChange={this.handleChange} />
+            <br/>
+            <label>
+            Is Initial Node?
+            <input name="is_start" type="checkbox" checked={this.state.is_start} onChange={this.handleChange} />
+            </label>
             <br/>
             <div className="save_delete_container">
               <input type="submit" value="Save Node" />
