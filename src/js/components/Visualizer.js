@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     active_node_id: state.active_node_id,
     nodes: state.nodes,
-    mode: state.visualizer_mode
+    mode: state.visualizer_mode,
+    graph_title: state.graph_title
  };
 }
 
@@ -28,7 +29,12 @@ class Visualizer extends Component {
 
   componentDidMount(){
     // drawVisualizer(this.props);
-    drawVisualizer(this.props);
+    if(this.props.mode === "d3"){
+      drawVisualizer(this.props);
+    } else if(this.props.mode === "pdf"){
+      generatePDF(this.props);
+    }
+
   }
 
   shouldComponentUpdate(next_props){

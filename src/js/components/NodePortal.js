@@ -55,7 +55,7 @@ class NodePortal extends Component {
 
         <div className="editing_portal_content">
           <form id="node_edit_form" onSubmit={this.handleSubmit}>
-            <label for="title">Title</label>
+            <label htmlFor="title">Title</label>
             <input type="text" name="title" value={this.state.title} onChange={this.handleChange} />
             <br/>
             <label>Content</label>
