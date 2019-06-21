@@ -4,22 +4,26 @@ import NodeSymbol from "./NodeSymbol";
 import { connect } from "react-redux";
 
 import drawVisualizer from '../helpers/drawVisualizer';
+import generatePDF from '../helpers/generatePDF';
 
 import '../../css/Visualizer.css';
 
 const mapStateToProps = (state, ownProps) => {
   return {
     active_node_id: state.active_node_id,
-    nodes: state.nodes
+    nodes: state.nodes,
+    mode: state.visualizer_mode
  };
 }
 
-
+// renders either the d3 graph or pdf based on props
 
 class Visualizer extends Component {
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      mode: this.props.mode
+    };
   }
 
   componentDidMount(){
@@ -28,16 +32,21 @@ class Visualizer extends Component {
   }
 
   shouldComponentUpdate(next_props){
-    if(this.props.active_node_id !== next_props.active_node_id && this.props.nodes === next_props.nodes){
-      console.log("component shouldnt update");
-      return false;
+    if(this.props.mode === "d3"){
+      if(this.props.active_node_id !== next_props.active_node_id && this.props.nodes === next_props.nodes){
+        return false;
+      }
     }
-    console.log("component should update");
+
     return true;
   }
 
   componentDidUpdate(prevProps){
-    drawVisualizer(this.props);
+    if(this.props.mode === "d3"){
+      drawVisualizer(this.props);
+    } else if (this.props.mode === "pdf"){
+      generatePDF(this.props);
+    }
   }
 
   render(){

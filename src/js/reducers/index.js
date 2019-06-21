@@ -1,4 +1,4 @@
-import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE, DELETE_EDGE, DELETE_NODE } from "../constants/action-types";
+import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE, DELETE_EDGE, DELETE_NODE, CHANGE_VISUALIZER_MODE } from "../constants/action-types";
 import { getNodeIndex, getEdgeIndex } from "../selectors/index";
 import { getGraph, getGraphList, getActiveGraph } from "../helpers/localStorageManager";
 import uuidv1 from 'uuid';
@@ -27,7 +27,8 @@ if(getActiveGraph()){
     graph_id: initial_graph_id,
     graph_title: "Untitled Document",
     active_node_id: DEFAULT_NODES[0].id,
-    nodes: DEFAULT_NODES
+    nodes: DEFAULT_NODES,
+    visualizer_mode: "d3"
   };
 }
 
@@ -72,6 +73,10 @@ function rootReducer(state = initialState, action){
       return Object.assign({}, state, {
         active_node_id: new_nodes[0].id,
         nodes: new_nodes
+      });
+    case CHANGE_VISUALIZER_MODE:
+      return Object.assign({}, state, {
+        visualizer_mode: changeVisualizerMode(state)
       });
     default:
       return state
@@ -156,6 +161,12 @@ function deleteNode(state, payload){
   nodes.splice(node_to_remove_index, 1);
 
   return nodes;
+}
+
+function changeVisualizerMode(state){
+  let mode = state.visualizer_mode;
+  mode === "d3" ? mode = "pdf" : mode = "d3";
+  return mode;
 }
 
 export default rootReducer;

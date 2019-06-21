@@ -1,20 +1,22 @@
 import React, { Component }  from "react";
 import { connect } from "react-redux";
 
-import { addNode, editTitle } from "../actions/index";
+import { addNode, editTitle, changeVisualizerMode } from "../actions/index";
 import { quickSaveGraph, setActiveGraph } from "../helpers/localStorageManager";
 
 function mapDispatchToProps(dispatch){
   return {
     addNode: node => dispatch(addNode(node)),
-    editTitle: title => dispatch(editTitle(title))
+    editTitle: title => dispatch(editTitle(title)),
+    changeVisualizerMode: () => dispatch(changeVisualizerMode())
   };
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
     graph_id: state.graph_id,
-    graph_title: state.graph_title
+    graph_title: state.graph_title,
+    visualizer_mode: state.visualizer_mode
   }
 }
 
@@ -50,6 +52,10 @@ class Navigation extends Component {
     this.props.addNode(null);
   }
 
+  changeVisualizerMode(){
+    this.props.changeVisualizerMode();
+  }
+
   render(){
     return(
       <div id="toolbar">
@@ -59,9 +65,14 @@ class Navigation extends Component {
             <input type="submit" value="Save Changes" title="Story will be saved on this computer in this browser. Clearing your browser cache will delete this story." />
           </form>
 
-        <button onClick={() => this.addByButton()}>
-          Add Node
-        </button>
+        <div className="save_delete_container">
+          <button onClick={() => this.addByButton()}>
+            Add Node
+          </button>
+          <button onClick={() => this.changeVisualizerMode()}>
+            {this.props.visualizer_mode === "d3" ? "Generate PDF" : "Generate Graph"}
+          </button>
+        </div>
       </div>
     )
   }

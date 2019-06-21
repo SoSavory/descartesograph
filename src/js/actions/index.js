@@ -1,4 +1,4 @@
-import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE, DELETE_EDGE, DELETE_NODE } from "../constants/action-types";
+import { ADD_NODE, SET_ACTIVE, EDIT_NODE, ADD_EDGE, EDIT_EDGE, EDIT_TITLE, DELETE_EDGE, DELETE_NODE, CHANGE_VISUALIZER_MODE } from "../constants/action-types";
 
 // Payload is a node of form {id: '', data: {}, edges: [], reverse_edges: []}
 export function addNode(payload) {
@@ -33,4 +33,8 @@ export function deleteEdge(payload){
 
 export function deleteNode(payload){
   return {type: DELETE_NODE, payload}
+}
+
+export function changeVisualizerMode(){
+  return {type: CHANGE_VISUALIZER_MODE}
 }

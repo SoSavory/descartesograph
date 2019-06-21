@@ -6,3 +6,4 @@ export const EDIT_EDGE = "EDIT_EDGE";
 export const EDIT_TITLE = "EDIT_TITLE";
 export const DELETE_EDGE = "DELETE_EDGE";
 export const DELETE_NODE = "DELETE_NODE";
+export const CHANGE_VISUALIZER_MODE = "CHANGE_VISUALIZER_MODE";

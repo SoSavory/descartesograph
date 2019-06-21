@@ -16,6 +16,11 @@
   overflow-y: scroll;
 }
 
+#visualizer_container .visualizer_pdf{
+  width: 100%;
+  height: 100%;
+}
+
 #visualizer_overlay{
   height: 100%;
 }

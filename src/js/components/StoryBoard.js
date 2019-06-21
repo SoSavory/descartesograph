@@ -23,7 +23,7 @@ class StoryBoard extends Component {
             <EditPortal />
           </div>
           <div id="right">
-              <Navigation />
+              <Navigation mode="d3" />
 
               <Visualizer />
 
