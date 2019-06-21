@@ -38,8 +38,10 @@ if(getActiveGraph()){
 function rootReducer(state = initialState, action){
   switch (action.type) {
     case ADD_NODE:
+      let added_node = addNode(state);
       return Object.assign({}, state, {
-        nodes: addNode(state)
+        nodes: added_node,
+        active_node_id: added_node[added_node.length-1].id
       });
     case SET_ACTIVE:
       return Object.assign({}, state, {

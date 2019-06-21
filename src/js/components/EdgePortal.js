@@ -48,7 +48,7 @@ class EdgePortal extends Component {
           </h3>
         </div>
         <div className="editing_portal_content">
-            <label>End Node</label>
+            <label>Target Node</label>
           { this.props.type == "to" &&
             <form id="edge_edit_form" onSubmit={this.addEdge} >
               <select value={this.state.node_to_id} onChange={this.handleNewEdgeChange}>
